@@ -1,126 +1,99 @@
-    // controllers/userController.js
-    import User from '../schemas/userModel.js';
-    import bcrypt from 'bcrypt';
-    import jwt from 'jsonwebtoken';
+// import User from '../schemas/userModel.js';
+// import bcrypt from 'bcrypt';
+// import jwt from 'jsonwebtoken';
+// import Booking from '../schemas/bookingModel.js'
+// import Property from '../schemas/propertyModel.js'
 
-    // Create a new user function
-    export async function createUser(req, res) {
-        const { name, email, password } = req.body;
-        try {
-            const existingUser = await User.findOne({ email });
-            if (existingUser) {
-                return res.status(400).json({ message: 'User already exists' });
-            }
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = new User({ name, email, password: hashedPassword });
-            await newUser.save();
-            res.status(201).json({ message: 'User created successfully', user: { email: newUser.email, _id: newUser._id } });
-        } catch (error) {
-            console.error("Error details:", error);
-            res.status(400).json({ message: 'Error creating user', error });
-        }
-    }
+// // Register a new use
+// // export async function registerUser(req, res) {
+// //   const { name, email, password, role } = req.body;
 
-    // Register user function
-    // controllers/userController.js
+// //   try {
+// //     // Check if the user already exists
+// //     const existingUser = await User.findOne({ email });
+// //     if (existingUser) {
+// //       return res.status(400).json({ message: 'User already exists' });
+// //     }
 
-    // Register user function
-    export async function registerUser(req, res) {
-        const { name, email, password, role = 'renter' } = req.body; // Default role to 'renter'
+// //     // Hash the password
+// //     const salt = await bcrypt.genSalt(10); // Adjust salt rounds if needed
+// //     const hashedPassword = await bcrypt.hash(password, salt);
 
-        try {
-            // Check if the user already exists
-            const existingUser = await User.findOne({ email });
-            if (existingUser) {
-                return res.status(400).json({ message: 'User already exists' });
-            }
+// //     // Create new user with hashed password
+// //     const newUser = new User({ name, email, password: hashedPassword, role });
+// //     await newUser.save();
 
-            // Hash the password
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            // Create a new user
-            const newUser = new User({ name, email, password: hashedPassword, role });
-            await newUser.save();
-
-            // Respond with success message
-            res.status(201).json({ message: 'User registered successfully', user: { email: newUser.email, _id: newUser._id, role: newUser.role } });
-        } catch (error) {
-            console.error("Error details:", error); // Log the full error details for debugging
-            res.status(500).json({ message: 'Error registering user', error: error.message || 'Unknown error' });
-        }
-    }
+// //     res.status(201).json({ message: 'User registered successfully' });
+// //   } catch (error) {
+// //     console.error('Registration error:', error);
+// //     res.status(500).json({ message: 'Server error' });
+// //   }
+// // }
 
 
-    // Login user function
-    export async function loginUser(req, res) {
-        const { email, password } = req.body;
-        try {
-            const user = await User.findOne({ email });
-            if (!user) {
-                return res.status(400).json({ message: 'Invalid email or password' });
-            }
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) {
-                return res.status(400).json({ message: 'Invalid email or password' });
-            }
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            res.status(200).json({ message: 'Login successful', token });
-        } catch (error) {
-            res.status(400).json({ message: 'Error logging in', error });
-        }
-    }
+// // // Login user
+// // export async function loginUser(req, res) {
+// //   const { email, password } = req.body;
 
-    // Get all users function
-    export async function getAllUsers(req, res) {
-        try {
-            const users = await User.find({});
-            res.status(200).json(users);
-        } catch (error) {
-            res.status(400).json({ message: 'Error fetching users', error });
-        }
-    }
+// //   // Check if username and password are provided
+// //   if (!email || !password) {
+// //       return res.status(400).json({ message: 'Email and password are required' });
+// //   }
 
-    // Get user by ID function
-    export async function getUser(req, res) {
-        const { id } = req.params;
-        try {
-            const user = await User.findById(id);
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-            res.status(200).json(user);
-        } catch (error) {
-            res.status(400).json({ message: 'Error fetching user', error });
-        }
-    }
+// //   try {
+// //       const user = await User.findOne({ email });
+// //       if (!user) {
+// //           return res.status(400).json({ message: 'Invalid email or password' });
+// //       }
 
-    // Update user function
-    export async function updateUser(req, res) {
-        const { userId } = req.params;
-        const updates = req.body;
+// //       const isMatch = await bcrypt.compare(password, user.password);
+// //       if (!isMatch) {
+// //           return res.status(400).json({ message: 'Invalid email or password' });
+// //       }
 
-        try {
-            const user = await User.findByIdAndUpdate(userId, updates, { new: true });
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-            res.status(200).json({ message: 'User updated successfully', user });
-        } catch (error) {
-            res.status(400).json({ message: 'Error updating user', error });
-        }
-    }
+// //       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '24h' });
+// //       res.json({ token });
+// //   } catch (error) {
+// //       console.error(error);  // Log the error for debugging purposes
+// //       res.status(500).json({ message: 'Error logging in' });
+// //   }
+// // }
+// // Renter - View All Properties
+// export async function getProperties(req, res) {
+//   try {
+//     const properties = await Property.find({ available: true }); // Get available properties
+//     res.status(200).json(properties);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Error fetching properties');
+//   }
+// }
 
-    // Delete user function
-    export async function deleteUser(req, res) {
-        const { userId } = req.params;
+// // Renter - Book a Property
+// // export async function bookProperty(req, res) {
+// //   const { propertyId, renterId, bookingDetails } = req.body;
 
-        try {
-            const user = await User.findByIdAndDelete(userId);
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-            res.status(200).json({ message: 'User deleted successfully' });
-        } catch (error) {
-            res.status(400).json({ message: 'Error deleting user', error });
-        }
-    }
+// //   // Check if renterId is passed correctly
+// //   if(!renterId) {
+// //     return res.status(400).send('Renter ID is required');
+// //   }
+
+// //   try {
+// //     const property = await Property.findById(propertyId);
+// //     if (!property) {
+// //       return res.status(404).send('Property not found');
+// //     }
+
+// //     const booking = new Booking({
+// //       propertyId,
+// //       renterId,
+// //       bookingDetails,
+// //     });
+
+// //     await booking.save();
+// //     res.status(200).send("Booking submitted successfully");
+// //   } catch (err) {
+// //     console.error("Error booking property:", err);
+// //     res.status(500).send("Server error");
+// //   }
+// // }

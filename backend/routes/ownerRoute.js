@@ -1,13 +1,12 @@
+// routes/ownerRoutes.js
 import { Router } from 'express';
-import { addProperty, getProperties, getPropertyById, updateProperty, deleteProperty } from '../controllers/ownerController.js';
-import { authMiddleware } from '../middleware/authMiddleware.js';
-
 const router = Router();
+import { createProperty, getAllProperties, getPropertyById, updateProperty, deleteProperty } from '../controllers/ownerController.js';
 
-router.post('/properties', authMiddleware, addProperty);
-router.get('/properties', authMiddleware, getProperties);
-router.get('/properties/:id', authMiddleware, getPropertyById); // Add route to get property by ID
-router.put('/properties/:id', authMiddleware, updateProperty);
-router.delete('/properties/:id', authMiddleware, deleteProperty);
+router.post('/properties', createProperty);
+router.get('/properties', getAllProperties);
+router.get('/properties/:id', getPropertyById);
+router.put('/properties/:id', updateProperty);
+router.delete('/properties/:id', deleteProperty);
 
 export default router;

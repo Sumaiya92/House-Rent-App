@@ -1,10 +1,22 @@
-// models/Booking.js
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const bookingSchema = new Schema({
-  propertyId: { type: Schema.Types.ObjectId, ref: 'Property', required: true },
-  renterId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
-});
+const bookingSchema = new mongoose.Schema({
+  propertyId: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Property', // Reference to Property model
+    required: true,
+  },
+  renterId: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', // Reference to User model (renter)
+    required: true,
+  },
+  bookingDetails: {
+    tenantName: { type: String, required: true },
+    tenantContact: { type: String, required: true },
+    bookingDate: { type: Date, required: true },
+    additionalInfo: { type: String, default: '' },
+  },
+}, { timestamps: true });
 
-export default model('Booking', bookingSchema);
+export default mongoose.model('Booking', bookingSchema);

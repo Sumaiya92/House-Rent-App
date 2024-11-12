@@ -1,5 +1,5 @@
 import express from 'express';
-import { approveOwner } from '../controllers/adminController.js';
+import { approveOwner ,getAllUsers} from '../controllers/adminController.js';
 
 const router = express.Router();
 
@@ -7,6 +7,6 @@ const router = express.Router();
 router.put('/approve/:ownerId', approveOwner);
 
 // Uncomment if getAllUsers is required for testing/admin purposes
-// router.get('/users', getAllUsers);
+router.get('/all-owners', getAllUsers);
 
 export default router;
