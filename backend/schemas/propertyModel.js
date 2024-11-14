@@ -2,7 +2,7 @@
   import mongoose from 'mongoose';
 
   const propertySchema = new mongoose.Schema({
-    ownerId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Owner',require:true },
     propertyType: { type: String, required: true },
     propertyAdType: { type: String, required: true },
     propertyAddress: { type: String, required: true },

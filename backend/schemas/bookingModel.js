@@ -1,22 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
   propertyId: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Property', // Reference to Property model
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Property',
+    required: true
   },
   renterId: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', // Reference to User model (renter)
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
-  bookingDetails: {
-    tenantName: { type: String, required: true },
-    tenantContact: { type: String, required: true },
-    bookingDate: { type: Date, required: true },
-    additionalInfo: { type: String, default: '' },
+  details: {
+    tenantName: String,
+    tenantContact: String,
+    bookingDate: Date,
+    additionalInfo: String
   },
+  status: {
+    type: String,
+    enum: ['Pending Approval', 'Approved', 'Rejected', 'Cancelled'],
+    default: 'Pending Approval'
+  }
 }, { timestamps: true });
 
 export default mongoose.model('Booking', bookingSchema);

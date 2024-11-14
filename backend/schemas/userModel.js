@@ -8,6 +8,9 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['Renter', 'Owner', 'Admin'], required: true },
   bookingHistory: { type: [Object], default: [] },
   createdAt: { type: Date, default: Date.now },
+  approved: { type: Boolean, default: false },
+  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
 });
+
 
 export default mongoose.model('User', userSchema);

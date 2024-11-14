@@ -10,7 +10,7 @@ export default function authenticate(req, res, next) {
 
   // Extract the token from the "Bearer <token>" format
   const token = authHeader.split(' ')[1];
-  cl
+
 
   try {
     // Verify the token with the secret, which will also consider the 'expiresIn' setting from token creation
@@ -28,3 +28,9 @@ export default function authenticate(req, res, next) {
     res.status(401).json({ message: 'Token is not valid' });
   }
 }
+export const isAdmin = (req, res, next) => {
+  if (req.user?.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied. Admins only.' });
+  }
+  next(); // Proceed to the next middleware or route handler if user is an admin
+};
