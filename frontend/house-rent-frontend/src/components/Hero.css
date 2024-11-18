@@ -1,0 +1,57 @@
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  background-color: #F8FAFC; /* Lightest background color */
+  color: white;
+  padding: 20px;
+}
+
+.hero-carousel {
+  width: 75%;
+  margin-bottom: 1rem;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 4px solid #E2E8F0; /* Light border */
+}
+
+.hero-content {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker background for content */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px); /* Adding a subtle blur effect */
+}
+
+.get-started-button {
+  width: 40%;
+  height: 50px;
+  background: linear-gradient(90deg, #1E293B, #334155); /* Primary dark to secondary dark gradient */
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.get-started-button:hover {
+  background: linear-gradient(90deg, #334155, #1E293B); /* Reversed gradient for hover */
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.get-started-button:active {
+  background: linear-gradient(90deg, #475569, #334155); /* Mid-tone hover for active state */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
